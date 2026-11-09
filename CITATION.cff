@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the accompanying article (under review) and this repository."
+title: "MT-HAB-G3D: Multi-Task Spatiotemporal Graph Learning for Coastal Harmful Algal Bloom Forecasting"
+type: software
+version: "1.0.0"
+date-released: "2026-11-09"
+license: MIT
+repository-code: "https://github.com/eung-yeol-Song/MT-HAB-G3D"
+authors:
+  - family-names: Song
+    given-names: Eungyeol
+    email: wp2001@changwon.ac.kr
+  - family-names: Oh
+    given-names: Beom-Seok
+    email: bsoh@seoultech.ac.kr
+preferred-citation:
+  type: article
+  title: "Multi-Task Spatiotemporal Graph Learning for Coastal Harmful Algal Bloom Forecasting"
+  journal: "Ecological Informatics"
+  year: 2026
+  notes: "Manuscript ECOINF-D-26-03683, under review."
+  authors:
+    - family-names: Song
+      given-names: Eungyeol
+    - family-names: Oh
+      given-names: Beom-Seok

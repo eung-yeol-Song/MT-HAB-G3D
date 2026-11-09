@@ -1,0 +1,9 @@
+stage,n
+station-days in the 2015-2020 archive (17 stations),32150
+  ... with all 7 required variables passing the 70% coverage rule,20346
+  ... with Chl-a also available,15142
+"  ... required variables complete AFTER forward-fill (<=3 d), calendar grid",22919
+"forecast samples (10-day window fully valid + D+1 target), all splits",18772
+  train: samples / with valid red-tide label at D+1 / with valid Chl-a at D+1,11174 / 11161 / 7799
+  val: samples / with valid red-tide label at D+1 / with valid Chl-a at D+1,3886 / 3875 / 3046
+  test: samples / with valid red-tide label at D+1 / with valid Chl-a at D+1,3712 / 3707 / 2949

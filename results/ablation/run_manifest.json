@@ -1,0 +1,20 @@
+{
+ "seeds": 10,
+ "mode": "ablation",
+ "bundle": "multiple",
+ "min_publishable_seeds": 10,
+ "publishable": true,
+ "created": "2026-11-04T17:07:52",
+ "version": "MT-HAB extended experiments \u2014 v13-rev1 (2026-11-03): revision pipeline",
+ "configs": [
+  "full",
+  "plus_doy",
+  "plus_rthist",
+  "plus_doy_rthist",
+  "residual_head",
+  "lam_0.2",
+  "lam_2.0",
+  "wbce"
+ ],
+ "failed": []
+}

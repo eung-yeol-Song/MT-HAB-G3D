@@ -1,0 +1,78 @@
+train: samples 11174, labelled D+1 11161, positives 66 (0.59%), chl-valid D+1 7799
+val: samples 3886, labelled D+1 3875, positives 35 (0.90%), chl-valid D+1 3046
+test: samples 3712, labelled D+1 3707, positives 44 (1.19%), chl-valid D+1 2949
+EA subset per horizon n/pos: D+1 151/44, D+2 154/45, D+3 156/45, D+4 156/46, D+5 154/45, D+6 153/42, D+7 150/41
+Table2 best per column: RMSE:MT-HAB-G3D (reg only), PeakRMSE:Persistence, R2:MT-HAB-G3D (reg only), F1:Day-of-year climatology, AUPRC:LSTM, MCC:MT-HAB-G3D (cls only), TSS:MT-HAB-G3D (cls only)
+  proposed rank on RMSE: 3/15  (best MT-HAB-G3D (reg only) 3.316)
+  proposed rank on PeakRMSE: 2/15  (best Persistence 8.794)
+  proposed rank on R2: 3/15  (best MT-HAB-G3D (reg only) 0.431)
+  proposed rank on F1: 4/15  (best Day-of-year climatology 0.297)
+  proposed rank on AUPRC: 2/15  (best LSTM 0.360)
+  proposed rank on MCC: 2/15  (best MT-HAB-G3D (cls only) 0.120)
+  proposed rank on TSS: 2/15  (best MT-HAB-G3D (cls only) 0.064)
+Table3 Persistence: TP 11.0/44 POD 0.250 FAR 0.750 CSI 0.143 FA/station-month 0.210 (FP full-year D+1 33.0; station-months 157)
+Table3 Day-of-year climatology: TP 11.0/44 POD 0.250 FAR 0.711 CSI 0.155 FA/station-month 1.771 (FP full-year D+1 278.0; station-months 157)
+Table3 Gradient-boosted trees: TP 11.0/44 POD 0.250 FAR 0.750 CSI 0.143 FA/station-month 0.217 (FP full-year D+1 34.0; station-months 157)
+Table3 MLP: TP 0.0/44 POD 0.000 FAR nan CSI 0.000 FA/station-month 0.000 (FP full-year D+1 0.0; station-months 157)
+Table3 LSTM: TP 0.0/44 POD 0.000 FAR nan CSI 0.000 FA/station-month 0.025 (FP full-year D+1 4.0; station-months 157)
+Table3 MT-HAB-G3D (proposed): TP 7.5/44 POD 0.170 FAR 0.423 CSI 0.144 FA/station-month 0.041 (FP full-year D+1 6.5; station-months 157)
+Table5 counts: {'n_comparisons': 96, 'favour_p05': 62, 'against_p05': 1, 'favour_BH': 57, 'against_BH': 1, 'not_significant': 33}
+significant against proposed (raw): MLP acc d=-0.0011 p=0.014 q=0.026
+Table6 Gradient-boosted trees: diverged 0 fails 11/70 seeds_fail 8 worst 0.099  (sd of mean F1 0.021)
+Table6 MLP: diverged 0 fails 64/70 seeds_fail 10 worst 0.000  (sd of mean F1 0.023)
+Table6 LSTM: diverged 0 fails 44/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.049)
+Table6 GRU: diverged 0 fails 46/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.048)
+Table6 CNN-LSTM: diverged 0 fails 53/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.037)
+Table6 Dilated TCN: diverged 0 fails 29/70 seeds_fail 8 worst 0.000  (sd of mean F1 0.046)
+Table6 Transformer: diverged 0 fails 22/70 seeds_fail 8 worst 0.018  (sd of mean F1 0.052)
+Table6 ST-GCN (no G3D): diverged 0 fails 51/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.026)
+Table6 MTGNN: diverged 0 fails 17/70 seeds_fail 3 worst 0.000  (sd of mean F1 0.073)
+Table6 AM-MTGNN: diverged 1 fails 18/70 seeds_fail 6 worst 0.000  (sd of mean F1 0.113)
+Table6 MTGNN (no graph): diverged 0 fails 17/70 seeds_fail 4 worst 0.000  (sd of mean F1 0.130)
+Table6 MT-HAB-G3D (proposed): diverged 0 fails 6/70 seeds_fail 3 worst 0.066  (sd of mean F1 0.039)
+Table6 MT-HAB-G3D (cls only): diverged None fails 0/70 seeds_fail 0 worst 0.153  (sd of mean F1 0.008)
+Table6 MT-HAB-G3D + spatial ext.: diverged 0 fails 12/70 seeds_fail 5 worst 0.010  (sd of mean F1 0.071)
+Table7 plus_station_graph: n=10 RMSE 3.995 dRMSE +0.522 p 0.027 | F1 0.160 dF1 -0.007 p 0.770 | AUPRC 0.325 (d -0.034, p 0.004) | val --- | eval n_reg 2949
+Table7 no_station_emb: n=10 RMSE 3.409 dRMSE -0.036 p 0.770 | F1 0.173 dF1 +0.019 p 0.049 | AUPRC 0.350 (d -0.010, p 0.020) | val +0.004 (0.625) | eval n_reg 2949
+Table7 no_log_target: n=10 RMSE 212.089 dRMSE +209.972 p 0.002 | F1 0.173 dF1 +0.028 p 0.160 | AUPRC 0.353 (d -0.007, p 0.492) | val -0.695 (0.002) | eval n_reg 2949
+Table7 window_5: n=10 RMSE 3.309 dRMSE -0.145 p 0.037 | F1 0.250 dF1 +0.095 p 0.004 | AUPRC 0.419 (d +0.059, p 0.004) | val +0.003 (1.000) | eval n_reg 3234
+Table7 lam_0.2: n=10 RMSE 3.354 dRMSE -0.021 p 0.846 | F1 0.157 dF1 -0.023 p 0.557 | AUPRC 0.357 (d -0.002, p 0.492) | val -0.001 (0.922) | eval n_reg 2949
+Table7 lam_2.0: n=10 RMSE 3.395 dRMSE -0.037 p 0.770 | F1 0.161 dF1 +0.018 p 0.557 | AUPRC 0.368 (d +0.008, p 0.232) | val -0.009 (0.084) | eval n_reg 2949
+Table7 residual_head: n=10 RMSE 3.458 dRMSE -0.020 p 0.922 | F1 0.165 dF1 +0.030 p 0.027 | AUPRC 0.365 (d +0.005, p 0.322) | val +0.001 (0.846) | eval n_reg 2949
+Table7 wbce: n=10 RMSE 3.336 dRMSE -0.076 p 0.557 | F1 0.156 dF1 +0.005 p 1.000 | AUPRC 0.355 (d -0.004, p 0.322) | val -0.014 (0.084) | eval n_reg 2949
+Table7 plus_doy: n=10 RMSE 3.593 dRMSE +0.130 p 0.160 | F1 0.059 dF1 -0.080 p 0.004 | AUPRC 0.310 (d -0.050, p 0.002) | val -0.026 (0.064) | eval n_reg 2949
+Table7 plus_rthist: n=10 RMSE 3.503 dRMSE +0.097 p 0.160 | F1 0.226 dF1 +0.082 p 0.002 | AUPRC 0.350 (d -0.010, p 0.084) | val -0.039 (0.004) | eval n_reg 2949
+Table7 plus_doy_rthist: n=10 RMSE 3.711 dRMSE +0.273 p 0.049 | F1 0.300 dF1 +0.160 p 0.002 | AUPRC 0.322 (d -0.037, p 0.037) | val -0.045 (0.002) | eval n_reg 2949
+
+horizon-wise paired Wilcoxon, proposed vs GBT RMSE (p):  D+1 d=+0.098 p=0.557, D+2 d=+0.230 p=0.037, D+3 d=+0.157 p=0.049, D+4 d=+0.060 p=0.492, D+5 d=-0.041 p=0.432, D+6 d=-0.065 p=0.322, D+7 d=-0.191 p=0.004
+proposed vs MLP RMSE (p): D+1 d=+0.139 p=0.922, D+2 d=+0.043 p=1.000, D+3 d=+0.049 p=0.557, D+4 d=+0.053 p=0.557, D+5 d=+0.039 p=0.846, D+6 d=+0.047 p=0.557, D+7 d=+0.055 p=0.232
+EA F1 by horizon  proposed: 0.252, 0.226, 0.189, 0.151, 0.118, 0.087, 0.045
+EA F1 by horizon  climatology: 0.268, 0.306, 0.299, 0.289, 0.305, 0.308, 0.308
+EA F1 by horizon  persistence: 0.250, 0.247, 0.338, 0.225, 0.212, 0.138, 0.291
+EA AUPRC by horizon proposed: 0.372, 0.348, 0.403, 0.354, 0.345, 0.319, 0.370
+EA AUPRC by horizon climatology: 0.303, 0.315, 0.318, 0.326, 0.321, 0.310, 0.313
+EA AUPRC by horizon LSTM: 0.375, 0.390, 0.378, 0.358, 0.362, 0.339, 0.310
+
+multitask vs single:
+    metric  control  MT_median  ST_median  delta_median  MT_better  p_raw  n_seeds  p_BH
+  AUPRC_ev cls-only      0.360      0.351         0.004       True  0.027       10 0.137
+     F1_ev cls-only      0.164      0.166        -0.000      False  0.432       10 0.703
+    MCC_ev cls-only      0.112      0.120        -0.013      False  0.492       10 0.703
+    TSS_ev cls-only      0.057      0.064        -0.005      False  0.375       10 0.703
+AUPRC_full cls-only      0.108      0.103        -0.001      False  0.770       10 0.855
+   F1_full cls-only      0.148      0.140         0.007       True  0.770       10 0.855
+      RMSE reg-only      3.361      3.316         0.034      False  0.131       10 0.327
+        R2 reg-only      0.413      0.431        -0.013      False  0.131       10 0.327
+  PeakRMSE reg-only      9.238      9.333        -0.207       True  1.000       10 1.000
+       TA1 reg-only      0.522      0.566        -0.047      False  0.020       10 0.137
+
+sample CI:
+                  model  n_seeds  RMSE  RMSE_lo  RMSE_hi  AUPRC  AUPRC_lo  AUPRC_hi
+  MT-HAB-G3D (proposed)       10 3.370    2.589    4.219  0.362     0.243     0.511
+            Persistence        1 3.491    2.603    4.471  0.308     0.244     0.402
+ Gradient-boosted trees       10 3.385    2.533    4.329  0.311     0.231     0.418
+                    MLP       10 3.324    2.528    4.188  0.318     0.246     0.425
+                   LSTM       10 3.491    2.606    4.394  0.362     0.260     0.499
+Day-of-year climatology        1 4.089    3.359    4.878  0.340     0.274     0.421
+
+onset POD proposed: [0.0, 0.0, 0.0, 0.016, 0.033, 0.0, 0.0]  persistence: [0.167, 0.25, 0.312, 0.226, 0.267, 0.207, 0.207]

@@ -1,0 +1,26 @@
+# experiment outputs (large; archived separately, see README "Data and model outputs")
+outputs/
+*.npz
+*.pt
+*.pth
+*.log
+*.pid
+smoke.log
+
+# raw monitoring data (not redistributed)
+daily_station_day.csv
+*.parquet
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+*.egg-info/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
