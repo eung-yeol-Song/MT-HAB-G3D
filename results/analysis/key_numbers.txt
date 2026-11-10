@@ -12,13 +12,13 @@ Table2 best per column: RMSE:MT-HAB-G3D (reg only), PeakRMSE:Persistence, R2:MT-
   proposed rank on TSS: 2/15  (best MT-HAB-G3D (cls only) 0.064)
 Table3 Persistence: TP 11.0/44 POD 0.250 FAR 0.750 CSI 0.143 FA/station-month 0.210 (FP full-year D+1 33.0; station-months 157)
 Table3 Day-of-year climatology: TP 11.0/44 POD 0.250 FAR 0.711 CSI 0.155 FA/station-month 1.771 (FP full-year D+1 278.0; station-months 157)
-Table3 Gradient-boosted trees: TP 11.0/44 POD 0.250 FAR 0.750 CSI 0.143 FA/station-month 0.217 (FP full-year D+1 34.0; station-months 157)
+Table3 Gradient-boosted trees: TP 11.0/44 POD 0.250 FAR 0.750 CSI 0.143 FA/station-month 0.213 (FP full-year D+1 33.5; station-months 157)
 Table3 MLP: TP 0.0/44 POD 0.000 FAR nan CSI 0.000 FA/station-month 0.000 (FP full-year D+1 0.0; station-months 157)
 Table3 LSTM: TP 0.0/44 POD 0.000 FAR nan CSI 0.000 FA/station-month 0.025 (FP full-year D+1 4.0; station-months 157)
 Table3 MT-HAB-G3D (proposed): TP 7.5/44 POD 0.170 FAR 0.423 CSI 0.144 FA/station-month 0.041 (FP full-year D+1 6.5; station-months 157)
 Table5 counts: {'n_comparisons': 96, 'favour_p05': 62, 'against_p05': 1, 'favour_BH': 57, 'against_BH': 1, 'not_significant': 33}
 significant against proposed (raw): MLP acc d=-0.0011 p=0.014 q=0.026
-Table6 Gradient-boosted trees: diverged 0 fails 11/70 seeds_fail 8 worst 0.099  (sd of mean F1 0.021)
+Table6 Gradient-boosted trees: diverged 0 fails 13/70 seeds_fail 8 worst 0.109  (sd of mean F1 0.013)
 Table6 MLP: diverged 0 fails 64/70 seeds_fail 10 worst 0.000  (sd of mean F1 0.023)
 Table6 LSTM: diverged 0 fails 44/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.049)
 Table6 GRU: diverged 0 fails 46/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.048)
@@ -44,7 +44,7 @@ Table7 plus_doy: n=10 RMSE 3.593 dRMSE +0.130 p 0.160 | F1 0.059 dF1 -0.080 p 0.
 Table7 plus_rthist: n=10 RMSE 3.503 dRMSE +0.097 p 0.160 | F1 0.226 dF1 +0.082 p 0.002 | AUPRC 0.350 (d -0.010, p 0.084) | val -0.039 (0.004) | eval n_reg 2949
 Table7 plus_doy_rthist: n=10 RMSE 3.711 dRMSE +0.273 p 0.049 | F1 0.300 dF1 +0.160 p 0.002 | AUPRC 0.322 (d -0.037, p 0.037) | val -0.045 (0.002) | eval n_reg 2949
 
-horizon-wise paired Wilcoxon, proposed vs GBT RMSE (p):  D+1 d=+0.098 p=0.557, D+2 d=+0.230 p=0.037, D+3 d=+0.157 p=0.049, D+4 d=+0.060 p=0.492, D+5 d=-0.041 p=0.432, D+6 d=-0.065 p=0.322, D+7 d=-0.191 p=0.004
+horizon-wise paired Wilcoxon, proposed vs GBT RMSE (p):  D+1 d=-0.350 p=0.084, D+2 d=+0.298 p=0.002, D+3 d=+0.110 p=0.193, D+4 d=+0.064 p=0.492, D+5 d=-0.056 p=0.275, D+6 d=-0.044 p=0.322, D+7 d=-0.162 p=0.004
 proposed vs MLP RMSE (p): D+1 d=+0.139 p=0.922, D+2 d=+0.043 p=1.000, D+3 d=+0.049 p=0.557, D+4 d=+0.053 p=0.557, D+5 d=+0.039 p=0.846, D+6 d=+0.047 p=0.557, D+7 d=+0.055 p=0.232
 EA F1 by horizon  proposed: 0.252, 0.226, 0.189, 0.151, 0.118, 0.087, 0.045
 EA F1 by horizon  climatology: 0.268, 0.306, 0.299, 0.289, 0.305, 0.308, 0.308
@@ -70,7 +70,7 @@ sample CI:
                   model  n_seeds  RMSE  RMSE_lo  RMSE_hi  AUPRC  AUPRC_lo  AUPRC_hi
   MT-HAB-G3D (proposed)       10 3.370    2.589    4.219  0.362     0.243     0.511
             Persistence        1 3.491    2.603    4.471  0.308     0.244     0.402
- Gradient-boosted trees       10 3.385    2.533    4.329  0.311     0.231     0.418
+ Gradient-boosted trees       10 3.430    2.528    4.438  0.300     0.226     0.403
                     MLP       10 3.324    2.528    4.188  0.318     0.246     0.425
                    LSTM       10 3.491    2.606    4.394  0.362     0.260     0.499
 Day-of-year climatology        1 4.089    3.359    4.878  0.340     0.274     0.421

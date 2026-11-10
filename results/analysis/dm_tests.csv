@@ -6,13 +6,13 @@ Persistence,D+4,0.0,0.0,0.0,0.5181241650589891
 Persistence,D+5,0.0,0.0,0.0,0.3813286250756187
 Persistence,D+6,0.1,0.1,0.0,0.17205955331516626
 Persistence,D+7,0.1,0.1,0.0,0.12351358696308694
-Gradient-boosted trees,D+1,0.1,0.0,0.1,0.5167407806757909
-Gradient-boosted trees,D+2,0.1,0.0,0.1,0.22379637444117073
-Gradient-boosted trees,D+3,0.1,0.0,0.1,0.4389844383148153
-Gradient-boosted trees,D+4,0.2,0.1,0.1,0.40045626749947416
-Gradient-boosted trees,D+5,0.1,0.1,0.0,0.4591503375615112
-Gradient-boosted trees,D+6,0.1,0.1,0.0,0.4803100335316694
-Gradient-boosted trees,D+7,0.2,0.2,0.0,0.32640044829821235
+Gradient-boosted trees,D+1,0.1,0.0,0.1,0.3982658051289178
+Gradient-boosted trees,D+2,0.3,0.0,0.3,0.1356171996233285
+Gradient-boosted trees,D+3,0.1,0.0,0.1,0.3708872554713321
+Gradient-boosted trees,D+4,0.1,0.0,0.1,0.48030026999192316
+Gradient-boosted trees,D+5,0.1,0.1,0.0,0.4627517421112706
+Gradient-boosted trees,D+6,0.1,0.1,0.0,0.5294170752672802
+Gradient-boosted trees,D+7,0.1,0.1,0.0,0.3799805775782589
 MLP,D+1,0.5,0.3,0.2,0.04815413917438533
 MLP,D+2,0.1,0.0,0.1,0.23907601123247968
 MLP,D+3,0.2,0.1,0.1,0.3657006119857383

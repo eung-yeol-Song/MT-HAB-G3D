@@ -106,6 +106,13 @@ GPU workers only; `--auto` (mixed CPU/GPU workers) is retained in `src.run_paral
 exploration but should not be used for publishable runs. `run_regpu.sh` documents how a mixed
 matrix was unified.
 
+The gradient-boosted-tree rows are CPU-only (scikit-learn) and depend on the library build. The
+rows released with v1.0.0 came from an earlier environment and could not be reproduced under the
+versions listed above; they were regenerated on 2026-11-10 in the same environment as the neural
+runs (RMSE 3.409 -> 3.465, event-adjacent AUPRC 0.299 -> 0.294), and every table that depends on
+them was rebuilt. No other model's results changed; only the Benjamini-Hochberg q-values in
+`table5_pairs.csv` shift, because the tree comparisons belong to the same family of tests.
+
 ## Citation
 
 See `CITATION.cff`. Please cite the article once published; until then cite this repository.
