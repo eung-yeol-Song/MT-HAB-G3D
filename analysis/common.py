@@ -95,15 +95,6 @@ def load_all(models=None, verbose=True):
                 print(f"[note] {name}: {len(runs)}/{n} seeds available")
         elif verbose:
             print(f"[note] {name}: no runs found under {base}/{fmt} - skipped")
-    # drop rows evaluated on a different sample set than the final model (e.g. T=10 ablation rows
-    # when MTHAB_OUT points at a T=5 matrix); every analysis script indexes them with one mask
-    ref = out.get("MT-HAB-G3D (proposed)")
-    if ref:
-        n_ref = len(ref[0]["m_cls"])
-        for name in [k for k, v in out.items() if len(v[0]["m_cls"]) != n_ref]:
-            if verbose:
-                print(f"[note] {name}: {len(out[name][0]['m_cls'])} test samples vs {n_ref} for the final model - skipped")
-            del out[name]
     return out
 
 
