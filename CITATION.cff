@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this code, please cite the accompanying article (under review) and this repository."
 title: "MT-HAB-G3D: Multi-Task Spatiotemporal Graph Learning for Coastal Harmful Algal Bloom Forecasting"
 type: software
-version: "1.0.0"
-date-released: "2026-11-09"
+version: "1.0.1"
+date-released: "2026-11-11"
 license: MIT
 repository-code: "https://github.com/eung-yeol-Song/MT-HAB-G3D"
 authors:
