@@ -326,6 +326,16 @@ def run(args):
     anchor = np.zeros(len(b.X), np.float32)
 
     tr, va, te = b.idx("train"), b.idx("val"), b.idx("test")
+    # refit protocol (revision, 2026-11-10): every setting is frozen beforehand on the
+    # validation year; the model is then fitted on train + validation for a FIXED number of
+    # epochs (--stop_epoch, no early stopping, no checkpoint selection) and scored on test.
+    # Decision thresholds cannot be re-fitted (no held-out year is left), so they are read
+    # from the matching train-only run (--thr_from).  --stop_epoch alone (without --refit)
+    # gives the train-only control with the same epoch budget.
+    _refit = bool(getattr(args, "refit", False))
+    _stop = int(getattr(args, "stop_epoch", 0) or 0)
+    if _refit:
+        tr = np.sort(np.concatenate([tr, va]))
     if args.residual:                      # learn the day-to-day increment
         b.y_reg = b.y_reg - chl_anchor(b)[:, None]
     C = b.X.shape[-1]
@@ -356,6 +366,8 @@ def run(args):
             m = b.m_cls[va][:, hi]
             t_, _ = best_threshold(b.y_cls[va][m, hi], pv["prob"][m, hi])
             thr.append(t_)
+        if getattr(args, "thr_from", ""):
+            thr = [float(t) for t in json.load(open(args.thr_from))["thresholds"]]
         history = {}
         model = None
     else:
@@ -394,8 +406,27 @@ def run(args):
         obj.to(dev)
 
         params = list(model.parameters()) + list(obj.parameters())
-        opt = torch.optim.Adam(params, lr=args.lr, weight_decay=args.wd)
-        sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=args.epochs)
+        # stage-3 (revision): optional decoupled weight decay, a cosine period shorter than
+        # the epoch budget, an exponential moving average of the weights and averaging of
+        # the top-k validation checkpoints.  All default to OFF, which leaves the reference
+        # run bit-identical.
+        if getattr(args, "opt", "adam") == "adamw":
+            opt = torch.optim.AdamW(params, lr=args.lr, weight_decay=args.wd)
+        else:
+            opt = torch.optim.Adam(params, lr=args.lr, weight_decay=args.wd)
+        _tm = int(getattr(args, "sched_tmax", 0) or 0)
+        if _tm > 0:
+            import math
+            sched = torch.optim.lr_scheduler.LambdaLR(
+                opt, lambda e: 0.02 + 0.98 * 0.5 * (1.0 + math.cos(math.pi * min(e, _tm) / _tm)))
+        else:
+            sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=args.epochs)
+        _ema_d = float(getattr(args, "ema", 0.0) or 0.0)
+        ema, n_upd = None, 0
+        if _ema_d > 0:
+            ema = {k: v.detach().clone() for k, v in model.state_dict().items()}
+        _topk_n = int(getattr(args, "avg_topk", 0) or 0)
+        top_states = []                                   # [(score, state)] best first
 
         dl_tr = make_loader(b, tr, args.batch_size, True, args.pos_sampler,
                             pos_weight_cap=getattr(args, "pos_weight_cap", 0.0),
@@ -414,13 +445,27 @@ def run(args):
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(params, args.clip)
                 opt.step()
+                if ema is not None:
+                    n_upd += 1
+                    d_ = min(_ema_d, (1.0 + n_upd) / (10.0 + n_upd))
+                    with torch.no_grad():
+                        for k_, v_ in model.state_dict().items():
+                            if v_.dtype.is_floating_point:
+                                ema[k_].mul_(d_).add_(v_.detach(), alpha=1.0 - d_)
+                            else:
+                                ema[k_].copy_(v_)
                 agg.append((float(loss.detach()), parts["cls"], parts["reg"]))
             sched.step()
             a = np.mean(agg, 0)
             obj.update_dwa(a[1], a[2])
 
+            if ema is not None:                           # score the averaged weights
+                _raw = {k: v.detach().clone() for k, v in model.state_dict().items()}
+                model.load_state_dict(ema)
             pv = add_anchor(predict(model, b, va, args.batch_size, device=dev),
                             b, va, args.residual)
+            if ema is not None:
+                model.load_state_dict(_raw)
             from .metrics import classification_metrics, regression_metrics, auprc
 
             # --------------------------------------------------------------
@@ -470,9 +515,18 @@ def run(args):
             history["val_loss"].append({"F1": f1v, "RMSE": rm["RMSE"], "R2": rm["R2"],
                                         "cls_sel": cls_v, "reg_sel": reg_v})
 
+            if _stop > 0:                                 # fixed budget: last epoch, no selection
+                if ep + 1 >= _stop:
+                    break
+                continue
+            _cur = ema if ema is not None else model.state_dict()
+            if _topk_n > 1 and np.isfinite(score):
+                top_states.append((float(score), {k: v.detach().clone() for k, v in _cur.items()}))
+                top_states.sort(key=lambda t: -t[0])
+                del top_states[_topk_n:]
             if score > best + 1e-5:
                 best, patience = score, 0
-                best_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
+                best_state = {k: v.detach().clone() for k, v in _cur.items()}
             else:
                 patience += 1
                 if patience >= args.patience:
@@ -483,6 +537,13 @@ def run(args):
 
         if best_state is not None:
             model.load_state_dict(best_state)
+        if _topk_n > 1 and len(top_states) > 1:           # uniform average of the top-k checkpoints
+            avg = {}
+            for k_ in top_states[0][1]:
+                vs = [st[k_] for _, st in top_states]
+                avg[k_] = (torch.stack([v.float() for v in vs]).mean(0).to(vs[0].dtype)
+                           if vs[0].dtype.is_floating_point else vs[0])
+            model.load_state_dict(avg)
 
         pv = add_anchor(predict(model, b, va, args.batch_size, args.mc_dropout, dev),
                         b, va, args.residual)
@@ -491,6 +552,8 @@ def run(args):
             m = b.m_cls[va][:, hi]
             t_, _ = best_threshold(b.y_cls[va][m, hi], pv["prob"][m, hi])
             thr.append(t_)
+        if getattr(args, "thr_from", ""):                 # thresholds frozen on the train-only run
+            thr = [float(t) for t in json.load(open(args.thr_from))["thresholds"]]
         pt = add_anchor(predict(model, b, te, args.batch_size, args.mc_dropout, dev),
                         b, te, args.residual)
 
@@ -627,6 +690,23 @@ def build_parser():
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--wd", type=float, default=1e-4)
     p.add_argument("--clip", type=float, default=5.0)
+    p.add_argument("--opt", default="adam", choices=["adam", "adamw"],
+                   help="adamw = decoupled weight decay (stage-3 candidate)")
+    p.add_argument("--sched_tmax", type=int, default=0,
+                   help="cosine period in epochs, held at 2%% of lr afterwards; 0 = --epochs (reference)")
+    p.add_argument("--ema", type=float, default=0.0,
+                   help="decay of an exponential moving average of the weights; validation, "
+                        "checkpoint selection and test use the averaged weights. 0 = off")
+    p.add_argument("--avg_topk", type=int, default=0,
+                   help="average the weights of the k best validation checkpoints. 0/1 = off")
+    p.add_argument("--refit", action="store_true",
+                   help="fit on train + validation (use with --stop_epoch and --thr_from); the "
+                        "validation numbers logged during such a run are in-sample")
+    p.add_argument("--stop_epoch", type=int, default=0,
+                   help="train exactly this many epochs and keep the last weights (no early "
+                        "stopping, no checkpoint selection). 0 = off (reference)")
+    p.add_argument("--thr_from", default="",
+                   help="metrics.json of a finished run whose decision thresholds are reused")
     p.add_argument("--dropout", type=float, default=0.1)
     p.add_argument("--f1_weight", type=float, default=0.5,
                    help="weight of the classification term in the model-selection "

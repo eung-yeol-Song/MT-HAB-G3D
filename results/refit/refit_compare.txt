@@ -1,0 +1,253 @@
+
+=== RMSE: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              3.5115  3.5115  3.5115      -0.0000          NaN         0.0000            NaN      -0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  4.1000  4.1000  4.1679       0.0000          NaN         0.0679            NaN       0.0679          NaN  0.0000    0.0000
+Gradient-boosted trees   3.4647  3.4647  3.3575       0.0000          NaN        -0.1072         0.0020      -0.1072       0.0020  0.0000    0.0281
+MLP                      3.3411  3.3346  3.2905       0.0000       0.6875        -0.0534         0.0059      -0.0953       0.0645  0.1107    0.0759
+LSTM                     3.4989  3.4642  3.4142      -0.0046       0.6875        -0.0846         0.0840      -0.1217       0.0488  0.0848    0.1002
+GRU                      3.4985  3.4809  3.3797       0.0000       0.9453        -0.1440         0.4316      -0.0911       0.2754  0.1068    0.1724
+CNN-LSTM                 3.4854  3.4328  3.3414       0.0000       0.8750        -0.1040         0.0273      -0.1040       0.0039  0.1166    0.0865
+Dilated TCN              3.4036  3.4019  3.3406       0.0000       0.5625        -0.0614         0.0371      -0.0614       0.1934  0.0613    0.0612
+Transformer              3.4262  3.3695  3.2919      -0.0800       0.0391        -0.0468         0.1602      -0.1556       0.0273  0.1536    0.0921
+ST-GCN (no G3D)          4.2180  4.3097  4.3335       0.1271       0.3223        -0.0769         0.4316       0.0660       0.4316  0.3189    0.2764
+MTGNN                    4.0394  3.8846  3.4481      -0.1056       0.3223        -0.2790         0.0059      -0.4291       0.0098  0.6202    0.2451
+AM-MTGNN                 3.8293  3.7222  3.3819      -0.0524       0.4922        -0.1980         0.1309      -0.3047       0.1934  1.7166    0.5516
+MTGNN (no graph)         4.0853  4.0923  4.1449      -0.0106       0.5566         0.0211         0.1309       0.0624       0.0195  0.0692    0.0600
+MT-HAB-G3D (proposed)    3.3607  3.3877  3.2245       0.0098       0.9102        -0.1528         0.0059      -0.1408       0.0039  0.2104    0.0818
+MT-HAB-G3D (reg only)    3.3162  3.3151  3.2659       0.0000       0.3125        -0.0655         0.1309      -0.0348       0.6250  0.0548    0.1639
+
+=== R2: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.3530  0.3530  0.3530       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  0.1357  0.1357  0.1069       0.0000          NaN        -0.0288            NaN      -0.0288          NaN  0.0000    0.0000
+Gradient-boosted trees   0.3788  0.3788  0.4177       0.0000          NaN         0.0389         0.0020       0.0389       0.0020  0.0000    0.0089
+MLP                      0.4226  0.4246  0.4392       0.0000       0.6875         0.0184         0.0098       0.0318       0.0840  0.0392    0.0259
+LSTM                     0.3683  0.3816  0.3969       0.0004       0.5781         0.0286         0.0840       0.0440       0.0488  0.0304    0.0341
+GRU                      0.3700  0.3756  0.4077       0.0000       1.0000         0.0468         0.4316       0.0286       0.3750  0.0377    0.0606
+CNN-LSTM                 0.3694  0.3902  0.4213       0.0000       0.8750         0.0336         0.0371       0.0336       0.0039  0.0422    0.0285
+Dilated TCN              0.3997  0.4011  0.4212       0.0000       0.5625         0.0201         0.0371       0.0201       0.2324  0.0226    0.0211
+Transformer              0.3939  0.4134  0.4392       0.0256       0.0391         0.0165         0.1602       0.0541       0.0195  0.0561    0.0298
+ST-GCN (no G3D)          0.0855  0.0452  0.0333      -0.0545       0.3223         0.0282         0.4316      -0.0279       0.4922  0.1491    0.1288
+MTGNN                    0.1608  0.2238  0.3861       0.0436       0.2754         0.1075         0.0059       0.1632       0.0098  0.2734    0.0868
+AM-MTGNN                 0.2439  0.2845  0.4082       0.0196       0.5566         0.0681         0.1602       0.1078       0.2324  1.1999    0.2447
+MTGNN (no graph)         0.1421  0.1392  0.1169       0.0044       0.5566        -0.0088         0.1309      -0.0264       0.0195  0.0292    0.0257
+MT-HAB-G3D (proposed)    0.4131  0.4042  0.4604      -0.0030       0.9102         0.0522         0.0059       0.0458       0.0039  0.0784    0.0266
+MT-HAB-G3D (reg only)    0.4314  0.4284  0.4478      -0.0010       0.2500         0.0228         0.1309       0.0124       0.6953  0.0188    0.0581
+
+=== PeakRMSE: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                             ref    fixed    refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                                 
+Persistence               8.7940   8.7940   8.7940       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  11.1568  11.1568  11.3899       0.0000          NaN         0.2331            NaN       0.2331          NaN  0.0000    0.0000
+Gradient-boosted trees    9.7259   9.7259   9.6174       0.0000          NaN        -0.1085         0.0195      -0.1085       0.0195  0.0000    0.0951
+MLP                       9.5586   9.5387   9.4381       0.0000       0.8125        -0.1432         0.1055      -0.3198       0.1934  0.4391    0.3008
+LSTM                     10.0836  10.0654   9.7494       0.0000       0.5781        -0.2092         0.0273      -0.3705       0.0645  0.2613    0.2957
+GRU                      10.0532  10.0448   9.7507       0.0308       0.7422        -0.3716         0.3750      -0.1844       0.2754  0.3128    0.4637
+CNN-LSTM                  9.7761   9.7044   9.2360       0.0000       1.0000        -0.3579         0.0059      -0.4065       0.0273  0.3943    0.2478
+Dilated TCN               9.6611   9.7540   9.5372       0.0483       0.1562        -0.2218         0.0039      -0.1347       0.1934  0.1387    0.1400
+Transformer               9.7624   9.5401   9.3419      -0.1591       0.1484        -0.2537         0.2324      -0.5156       0.0840  0.4177    0.2192
+ST-GCN (no G3D)          10.6727  11.5194  10.1677       0.2646       0.1309        -1.3679         0.0098      -0.0524       0.4316  0.8127    0.4836
+MTGNN                    10.8631  10.2448   9.4640      -0.1053       0.1602        -0.6745         0.0488      -0.8537       0.0195  1.1831    0.7690
+AM-MTGNN                  9.7860   9.8495   9.5863      -0.1218       0.6250        -0.0226         0.7695      -0.5421       0.5566  5.6306    1.7619
+MTGNN (no graph)         10.9430  11.3269  11.4259       0.1606       0.3750         0.1965         0.2754       0.5664       0.0371  0.4821    0.2805
+MT-HAB-G3D (proposed)     9.2381   9.6510   9.1551       0.3497       0.1641        -0.5255         0.0195      -0.2079       0.1602  0.5321    0.4019
+MT-HAB-G3D (reg only)     9.3328   9.5612   9.4070       0.1434       0.0078        -0.0053         0.7695       0.0972       0.1055  0.1878    0.3696
+
+=== AUPRC_ea: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.2999  0.2999  0.2999       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  0.3151  0.3151  0.3122       0.0000          NaN        -0.0029            NaN      -0.0029          NaN  0.0000    0.0000
+Gradient-boosted trees   0.2942  0.2942  0.3145       0.0000          NaN         0.0193         0.0020       0.0193       0.0020  0.0050    0.0086
+MLP                      0.3217  0.3140  0.3577       0.0000       0.2188         0.0420         0.0020       0.0348       0.0020  0.0188    0.0031
+LSTM                     0.3599  0.3584  0.3675       0.0000       1.0000         0.0095         0.0488       0.0049       0.1602  0.0245    0.0023
+GRU                      0.3517  0.3472  0.3679       0.0000       0.6406         0.0199         0.0020       0.0162       0.0020  0.0191    0.0046
+CNN-LSTM                 0.3109  0.3122  0.3511       0.0000       0.6250         0.0412         0.0020       0.0436       0.0020  0.0118    0.0161
+Dilated TCN              0.3435  0.3450  0.3638       0.0000       0.8438         0.0181         0.0020       0.0191       0.0020  0.0141    0.0052
+Transformer              0.3202  0.3175  0.3641      -0.0011       0.2500         0.0465         0.0020       0.0415       0.0020  0.0182    0.0038
+ST-GCN (no G3D)          0.3349  0.3478  0.3343       0.0054       0.4316        -0.0143         0.6250       0.0032       0.7695  0.0201    0.0103
+MTGNN                    0.3369  0.3375  0.3435      -0.0002       0.9219        -0.0065         0.8457      -0.0049       0.6953  0.0238    0.0229
+AM-MTGNN                 0.3170  0.3252  0.3414       0.0067       0.1309         0.0135         0.1309       0.0178       0.0273  0.0229    0.0142
+MTGNN (no graph)         0.3217  0.3042  0.3300       0.0025       1.0000         0.0232         0.0137       0.0077       0.5566  0.0328    0.0077
+MT-HAB-G3D (proposed)    0.3596  0.3631  0.3673       0.0025       0.5703        -0.0013         0.9219       0.0013       0.3750  0.0134    0.0071
+MT-HAB-G3D (cls only)    0.3507  0.3571  0.3618       0.0000       0.8125         0.0044         0.2324       0.0111       0.0840  0.0092    0.0067
+
+=== AUPRC_full: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.0519  0.0519  0.0519       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  0.0591  0.0591  0.0538       0.0000          NaN        -0.0053            NaN      -0.0053          NaN  0.0000    0.0000
+Gradient-boosted trees   0.0373  0.0373  0.0558       0.0000          NaN         0.0179         0.0020       0.0179       0.0020  0.0058    0.0048
+MLP                      0.0614  0.0488  0.1028       0.0000       0.2188         0.0512         0.0020       0.0394       0.0098  0.0309    0.0086
+LSTM                     0.0541  0.0559  0.1062       0.0000       0.9375         0.0559         0.0020       0.0534       0.0020  0.0179    0.0136
+GRU                      0.1059  0.1042  0.1448       0.0000       0.9453         0.0421         0.0020       0.0397       0.0020  0.0284    0.0087
+CNN-LSTM                 0.0518  0.0518  0.1079       0.0000       0.3750         0.0508         0.0020       0.0545       0.0020  0.0116    0.0200
+Dilated TCN              0.1009  0.1041  0.1198       0.0000       0.2188         0.0189         0.0020       0.0231       0.0020  0.0117    0.0118
+Transformer              0.0641  0.0571  0.1373      -0.0029       0.6406         0.0724         0.0020       0.0639       0.0020  0.0260    0.0091
+ST-GCN (no G3D)          0.0154  0.0240  0.0254       0.0048       0.2324        -0.0020         0.4922       0.0080       0.2754  0.0120    0.0080
+MTGNN                    0.0201  0.0229  0.0589      -0.0014       0.3223         0.0343         0.0020       0.0335       0.0039  0.0145    0.0203
+AM-MTGNN                 0.0285  0.0260  0.0582      -0.0014       0.2754         0.0306         0.0098       0.0289       0.0137  0.0164    0.0192
+MTGNN (no graph)         0.0130  0.0125  0.0338      -0.0004       0.1934         0.0201         0.0020       0.0194       0.0020  0.0037    0.0091
+MT-HAB-G3D (proposed)    0.1076  0.1098  0.1142       0.0031       0.9102         0.0040         0.2754       0.0092       0.4316  0.0141    0.0113
+MT-HAB-G3D (cls only)    0.1031  0.1018  0.1170       0.0000       0.6875         0.0190         0.0840       0.0087       0.0488  0.0105    0.0142
+
+=== F1_ea: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.2431  0.2431  0.2431       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology  0.2974  0.2974  0.2769       0.0000          NaN        -0.0205            NaN      -0.0205          NaN  0.0000    0.0000
+Gradient-boosted trees   0.1256  0.1256  0.1777       0.0000          NaN         0.0467         0.0098       0.0467       0.0098  0.0127    0.0369
+MLP                      0.0000  0.0000  0.1950       0.0000       0.5000         0.1950         0.0020       0.1860       0.0020  0.0231    0.0439
+LSTM                     0.0126  0.0000  0.1686       0.0000       0.2500         0.1686         0.0020       0.1553       0.0020  0.0493    0.0249
+GRU                      0.0198  0.0236  0.1667       0.0000       0.5625         0.1517         0.0020       0.1517       0.0020  0.0479    0.0147
+CNN-LSTM                 0.0058  0.0150  0.1787       0.0000       0.1250         0.1503         0.0020       0.1651       0.0020  0.0374    0.0357
+Dilated TCN              0.0617  0.0937  0.1917       0.0067       0.0312         0.1018         0.0020       0.1271       0.0020  0.0458    0.0209
+Transformer              0.0490  0.0568  0.1909       0.0057       0.7422         0.1351         0.0020       0.1487       0.0039  0.0519    0.0229
+ST-GCN (no G3D)          0.0000  0.0000  0.1677       0.0000       0.1875         0.1050         0.0156       0.1444       0.0117  0.0258    0.1127
+MTGNN                    0.1069  0.0169  0.2417      -0.0465       0.1953         0.2002         0.0039       0.1457       0.0195  0.0730    0.0619
+AM-MTGNN                 0.1396  0.0808  0.2215      -0.0086       0.2500         0.1557         0.0020       0.0897       0.0195  0.1134    0.0811
+MTGNN (no graph)         0.1334  0.1782  0.3388      -0.0113       0.7695         0.1517         0.0020       0.1984       0.0137  0.1300    0.0354
+MT-HAB-G3D (proposed)    0.1638  0.1646  0.1584       0.0040       0.5703         0.0037         0.4316       0.0184       0.2324  0.0391    0.0506
+MT-HAB-G3D (cls only)    0.1661  0.1605  0.1667      -0.0027       0.2969         0.0069         0.0488       0.0069       0.1602  0.0081    0.0291
+
+=== MCC_ea: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.0442  0.0442  0.0442       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology -0.0061 -0.0061 -0.0182       0.0000          NaN        -0.0121            NaN      -0.0121          NaN  0.0000    0.0000
+Gradient-boosted trees  -0.0049 -0.0049  0.0271       0.0000          NaN         0.0289         0.0020       0.0289       0.0020  0.0204    0.0199
+MLP                      0.0000  0.0000  0.0883       0.0000       0.5000         0.0881         0.0020       0.0881       0.0020  0.0171    0.0181
+LSTM                     0.0207  0.0000  0.1096       0.0000       0.1250         0.0869         0.0020       0.0777       0.0020  0.0431    0.0238
+GRU                      0.0000  0.0007  0.1122       0.0000       0.8125         0.1024         0.0020       0.1046       0.0039  0.0513    0.0264
+CNN-LSTM                -0.0163 -0.0218  0.0620       0.0000       0.3750         0.0812         0.0020       0.0803       0.0020  0.0161    0.0354
+Dilated TCN              0.0004  0.0242  0.0662       0.0033       0.0938         0.0352         0.0371       0.0686       0.0059  0.0384    0.0129
+Transformer             -0.0106 -0.0060  0.1074      -0.0017       0.9453         0.1111         0.0020       0.1094       0.0020  0.0369    0.0243
+ST-GCN (no G3D)          0.0000  0.0000  0.0526       0.0000       0.4688         0.0371         0.0117       0.0526       0.0117  0.0158    0.0347
+MTGNN                    0.0230  0.0035  0.0738      -0.0442       0.1953         0.0543         0.0273       0.0354       0.3750  0.0555    0.0319
+AM-MTGNN                 0.0217  0.0090  0.0731      -0.0056       0.3594         0.0458         0.0645       0.0258       0.2324  0.0631    0.0302
+MTGNN (no graph)         0.0117 -0.0160  0.0509      -0.0303       0.1934         0.0692         0.0039       0.0299       0.0020  0.0391    0.0149
+MT-HAB-G3D (proposed)    0.1120  0.1242  0.1346       0.0011       0.8203         0.0086         0.4922       0.0340       0.2324  0.0349    0.0326
+MT-HAB-G3D (cls only)    0.1195  0.1136  0.0994       0.0021       0.6875        -0.0143         0.2754      -0.0196       0.3223  0.0251    0.0359
+
+=== TSS_ea: median over seeds; d = paired median difference; p = Wilcoxon over seeds ===
+                            ref   fixed   refit  d_fixed_ref  p_fixed_ref  d_refit_fixed  p_refit_fixed  d_refit_ref  p_refit_ref  sd_ref  sd_refit
+model                                                                                                                                              
+Persistence              0.0282  0.0282  0.0282       0.0000          NaN         0.0000            NaN       0.0000          NaN  0.0000    0.0000
+Day-of-year climatology -0.0079 -0.0079 -0.0183       0.0000          NaN        -0.0104            NaN      -0.0104          NaN  0.0000    0.0000
+Gradient-boosted trees  -0.0092 -0.0092  0.0173       0.0000          NaN         0.0250         0.0020       0.0250       0.0020  0.0097    0.0143
+MLP                      0.0000  0.0000  0.0608       0.0000       0.5000         0.0599         0.0020       0.0596       0.0020  0.0061    0.0143
+LSTM                     0.0040  0.0000  0.0624       0.0000       0.3750         0.0572         0.0020       0.0508       0.0020  0.0193    0.0076
+GRU                      0.0000  0.0012  0.0600       0.0005       0.5781         0.0560         0.0020       0.0572       0.0020  0.0220    0.0074
+CNN-LSTM                -0.0034 -0.0087  0.0438       0.0000       0.2500         0.0491         0.0020       0.0491       0.0020  0.0058    0.0181
+Dilated TCN              0.0006  0.0133  0.0458       0.0019       0.0625         0.0301         0.0020       0.0470       0.0020  0.0169    0.0072
+Transformer             -0.0031 -0.0032  0.0644      -0.0031       0.6406         0.0617         0.0020       0.0615       0.0020  0.0211    0.0104
+ST-GCN (no G3D)          0.0000  0.0000  0.0387       0.0000       0.5781         0.0270         0.0039       0.0340       0.0117  0.0053    0.0262
+MTGNN                    0.0152  0.0014  0.0556      -0.0155       0.1953         0.0475         0.0039       0.0321       0.1055  0.0270    0.0286
+AM-MTGNN                 0.0125  0.0016  0.0533      -0.0024       0.3594         0.0371         0.0195       0.0163       0.1934  0.0391    0.0214
+MTGNN (no graph)         0.0112 -0.0068  0.0540      -0.0177       0.2324         0.0557         0.0039       0.0336       0.0020  0.0284    0.0126
+MT-HAB-G3D (proposed)    0.0572  0.0633  0.0664       0.0004       0.5703         0.0030         0.5566       0.0090       0.1934  0.0175    0.0104
+MT-HAB-G3D (cls only)    0.0637  0.0592  0.0567       0.0002       0.9375        -0.0034         0.4316      -0.0051       0.3223  0.0078    0.0104
+
+=== rank of the proposed model among the 14 Table-2 rows (median over seeds) ===
+protocol    ref  fixed  refit
+metric                       
+RMSE          2      3      1
+R2            2      3      1
+PeakRMSE      2      4      2
+AUPRC_ea      2      1      3
+AUPRC_full    1      1      4
+F1_ea         3      4     14
+MCC_ea        1      1      1
+TSS_ea        1      1      1
+protocol     metric  rank  n_models  proposed              best_model   best
+     ref       RMSE     2        14    3.3607                     MLP 3.3411
+     ref         R2     2        14    0.4131                     MLP 0.4226
+     ref   PeakRMSE     2        14    9.2381             Persistence 8.7940
+     ref   AUPRC_ea     2        14    0.3596                    LSTM 0.3599
+     ref AUPRC_full     1        14    0.1076   MT-HAB-G3D (proposed) 0.1076
+     ref      F1_ea     3        14    0.1638 Day-of-year climatology 0.2974
+     ref     MCC_ea     1        14    0.1120   MT-HAB-G3D (proposed) 0.1120
+     ref     TSS_ea     1        14    0.0572   MT-HAB-G3D (proposed) 0.0572
+   fixed       RMSE     3        14    3.3877                     MLP 3.3346
+   fixed         R2     3        14    0.4042                     MLP 0.4246
+   fixed   PeakRMSE     4        14    9.6510             Persistence 8.7940
+   fixed   AUPRC_ea     1        14    0.3631   MT-HAB-G3D (proposed) 0.3631
+   fixed AUPRC_full     1        14    0.1098   MT-HAB-G3D (proposed) 0.1098
+   fixed      F1_ea     4        14    0.1646 Day-of-year climatology 0.2974
+   fixed     MCC_ea     1        14    0.1242   MT-HAB-G3D (proposed) 0.1242
+   fixed     TSS_ea     1        14    0.0633   MT-HAB-G3D (proposed) 0.0633
+   refit       RMSE     1        14    3.2245   MT-HAB-G3D (proposed) 3.2245
+   refit         R2     1        14    0.4604   MT-HAB-G3D (proposed) 0.4604
+   refit   PeakRMSE     2        14    9.1551             Persistence 8.7940
+   refit   AUPRC_ea     3        14    0.3673                     GRU 0.3679
+   refit AUPRC_full     4        14    0.1142                     GRU 0.1448
+   refit      F1_ea    14        14    0.1584        MTGNN (no graph) 0.3388
+   refit     MCC_ea     1        14    0.1346   MT-HAB-G3D (proposed) 0.1346
+   refit     TSS_ea     1        14    0.0664   MT-HAB-G3D (proposed) 0.0664
+
+=== proposed vs 13 baselines x 8 metrics (seed-paired Wilcoxon, raw p<0.05) ===
+verdict   against  for  ns
+protocol                  
+ref             3   70  31
+fixed           3   71  30
+refit           8   62  34
+
+--- by metric (for / against) ---
+protocol     ref fixed refit
+metric                      
+RMSE         5/0   4/0  12/0
+R2           5/0   5/0  11/0
+PeakRMSE     6/1   4/1   6/1
+AUPRC_ea    11/0  12/0   9/0
+AUPRC_full  11/0  11/0   8/2
+F1_ea        7/2   9/2   0/5
+MCC_ea      13/0  13/0   9/0
+TSS_ea      12/0  13/0   7/0
+
+--- comparisons against the proposed model ---
+protocol                baseline     metric    gain      p verdict
+     ref             Persistence   PeakRMSE -0.4442 0.0020 against
+     ref             Persistence      F1_ea -0.0793 0.0020 against
+     ref Day-of-year climatology      F1_ea -0.1337 0.0020 against
+   fixed             Persistence   PeakRMSE -0.8570 0.0020 against
+   fixed             Persistence      F1_ea -0.0785 0.0020 against
+   fixed Day-of-year climatology      F1_ea -0.1329 0.0020 against
+   refit             Persistence   PeakRMSE -0.3612 0.0020 against
+   refit             Persistence      F1_ea -0.0847 0.0059 against
+   refit Day-of-year climatology      F1_ea -0.1186 0.0039 against
+   refit                     MLP      F1_ea -0.0266 0.0098 against
+   refit                     GRU AUPRC_full -0.0321 0.0020 against
+   refit             Transformer AUPRC_full -0.0247 0.0039 against
+   refit                   MTGNN      F1_ea -0.0899 0.0371 against
+   refit        MTGNN (no graph)      F1_ea -0.1709 0.0020 against
+
+--- single-task controls (gain > 0 : multi-task better) ---
+protocol              baseline     metric    gain      p verdict
+     ref MT-HAB-G3D (cls only)   AUPRC_ea  0.0040 0.0273     for
+     ref MT-HAB-G3D (cls only) AUPRC_full -0.0007 0.7695      ns
+     ref MT-HAB-G3D (cls only)      F1_ea -0.0005 0.4316      ns
+     ref MT-HAB-G3D (cls only)     MCC_ea -0.0131 0.4922      ns
+     ref MT-HAB-G3D (cls only)     TSS_ea -0.0047 0.3750      ns
+     ref MT-HAB-G3D (reg only)       RMSE -0.0338 0.1309      ns
+     ref MT-HAB-G3D (reg only)         R2 -0.0132 0.1309      ns
+     ref MT-HAB-G3D (reg only)   PeakRMSE  0.2072 1.0000      ns
+   fixed MT-HAB-G3D (cls only)   AUPRC_ea  0.0050 0.3750      ns
+   fixed MT-HAB-G3D (cls only) AUPRC_full  0.0077 0.5566      ns
+   fixed MT-HAB-G3D (cls only)      F1_ea  0.0012 0.9219      ns
+   fixed MT-HAB-G3D (cls only)     MCC_ea  0.0047 0.4922      ns
+   fixed MT-HAB-G3D (cls only)     TSS_ea  0.0025 0.4316      ns
+   fixed MT-HAB-G3D (reg only)       RMSE -0.0530 0.6953      ns
+   fixed MT-HAB-G3D (reg only)         R2 -0.0179 0.6953      ns
+   fixed MT-HAB-G3D (reg only)   PeakRMSE -0.1810 0.3750      ns
+   refit MT-HAB-G3D (cls only)   AUPRC_ea  0.0055 0.1934      ns
+   refit MT-HAB-G3D (cls only) AUPRC_full -0.0038 0.6250      ns
+   refit MT-HAB-G3D (cls only)      F1_ea -0.0066 0.4922      ns
+   refit MT-HAB-G3D (cls only)     MCC_ea  0.0235 0.2754      ns
+   refit MT-HAB-G3D (cls only)     TSS_ea  0.0086 0.2754      ns
+   refit MT-HAB-G3D (reg only)       RMSE  0.0269 0.4316      ns
+   refit MT-HAB-G3D (reg only)         R2  0.0083 0.4316      ns
+   refit MT-HAB-G3D (reg only)   PeakRMSE  0.3299 0.2754      ns
+written outputs/refit

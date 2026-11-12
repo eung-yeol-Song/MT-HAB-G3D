@@ -55,7 +55,7 @@ class DataConfig:
     add_mask_channel: bool = False         # extra channel flagging imputed values
     require_full_window: bool = True
     # Nodes that may be absent without discarding the sample; the corresponding
-    # task simply receives mask = 0.  Chl-a is optional because the NIFS network
+    # task simply receives mask = 0.  Chl-a is optional because the monitoring network
     # recorded NO Chl-a at all in 2015 and none at 4 stations in 2020, while those
     # station-days still carry a usable red-tide label.
     optional_nodes: tuple = ("chl",)

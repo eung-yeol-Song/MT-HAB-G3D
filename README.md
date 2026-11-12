@@ -20,11 +20,12 @@ src/                 data pipeline, models, training, parallel runner
   models/mtgnn.py, cnn_lstm.py, baselines.py, reference.py   comparison models
   train.py             one run (model x seed), writes metrics.json / preds_test.npz / preds_val.npz
   run_parallel.py      full comparison matrix (142 runs), run_ablation.py  component analysis
-analysis/            post-hoc analysis scripts 01-12 (tables, figures, supplement); numpy/pandas/scipy only
+analysis/            post-hoc analysis scripts 01-12 (tables, figures, supplement) and 14 (refit comparison); numpy/pandas/scipy only
 results/             CSV / TeX outputs that back the manuscript (see below)
 run_revision.sh      one-command pipeline (Linux);  run_revision.bat  Windows / Anaconda
 run_regpu.sh         re-run the reference matrix on GPU only (device unification, see "Determinism")
 run_stage2.sh        full matrix re-trained on the three augmented input bundles (Supplement S1-S3)
+run_refit.sh         full matrix refitted on training + validation years with a fixed epoch budget (Section 4.6.5, Supplement S7-S8)
 smoke_check.py       5-10 min end-to-end check (1 seed, 2 epochs, 4 models)
 requirements.txt     Python dependencies (PyTorch installed separately for your CUDA version)
 ```
@@ -35,22 +36,27 @@ requirements.txt     Python dependencies (PyTorch installed separately for your 
 | `run_standard/results.csv` | all 142 runs of the final comparison matrix (model, seed, parameters, runtime, every metric per lead time) |
 | `run_standard/run_devices.csv` | device of every run (130 PyTorch runs on `cuda:0`, 12 torch-free reference runs) |
 | `run_standard/reference_rows_summary.csv` | persistence / climatology / gradient-boosted trees |
-| `ablation/ablation_results.csv`, `ablation_summary.csv`, `run_manifest.json` | component and candidate configurations (Table 7, Fig. 5) |
-| `analysis/table*.csv`, `manuscript_tables.tex`, `key_numbers.txt` | Table 2–7 bodies exactly as typeset |
+| `ablation/ablation_results.csv`, `ablation_summary.csv`, `run_manifest.json` | component and candidate configurations (Table 8, Fig. 5) |
+| `analysis/table*.csv`, `manuscript_tables.tex`, `key_numbers.txt` | Table 2–8 bodies exactly as typeset |
 | `analysis/sample_ci.csv`, `dm_tests.csv`, `table5_pairs.csv` | bootstrap CIs, Diebold–Mariano, seed-paired tests |
 | `analysis/validation_selection.csv` | pre-registered validation-only selection rule for candidate configurations |
 | `analysis/onset_detection.csv`, `event_level_detection.csv`, `per_station_results.csv` | event-level and per-station results (Section 4.8, Supplement S5–S6) |
 | `analysis/threshold_rules_summary.csv` | decision-threshold sensitivity (Supplement S4) |
 | `analysis/perm_importance.csv`, `residual_mask_top_edges.csv`, `temporal_gates.csv` | model interpretation |
 | `stage2_<doy|rthist|doy-rthist>/` | full matrix re-trained with added input channels (Supplement S1–S3) |
+| `refit/refit_summary.csv`, `refit_per_seed.csv`, `refit_rank.csv`, `refit_pairwise.csv`, `refit_compare.txt` | reference vs fixed-budget control vs refit on 2015–2019, per model and metric (Section 4.6.5, Supplement S7–S8) |
+| `refit/<fixed|refit>/` | all 142 runs of the control and refit matrices (`results.csv`) with their Table 2 / Table 5 / onset-detection tables |
 
 ## Data
 
 The daily station table (`daily_station_day.csv`: 17 coastal stations, 2015–2020, eight
-water-quality variables from the NIFS real-time monitoring network plus the red-tide
-report history) is **not redistributed here**; the monitoring data belong to the National
-Institute of Fisheries Science (NIFS), Korea. The manuscript's Data availability section
-states how to obtain it. Once the file is placed at `outputs/daily_station_day.csv`, the
+water-quality variables plus the red-tide report history) is **not redistributed here**.
+The water-quality observations come from the Marine Water Quality Automatic Monitoring
+Network operated by the Korea Marine Environment Management Corporation (KOEM) and are
+published through the Marine Environment Information System (MEIS, <https://meis.go.kr>);
+the red-tide reports come from the Red Tide Information System of the National Institute of
+Fisheries Science (NIFS, <https://www.nifs.go.kr/red/main.red>). The manuscript's Data
+availability section states how to obtain them. Once the file is placed at `outputs/daily_station_day.csv`, the
 pipeline below rebuilds the bundle and all runs.
 
 Per-seed predictions and model weights (`preds_test.npz`, `model_state.pt`, ~0.5 GB in
@@ -92,6 +98,17 @@ bash run_revision.sh                # full pipeline, ~6-8 h on one RTX 4090
    detection, interpretation, manuscript tables (`analysis/10`), figures 3–5 (`analysis/11`),
    supplement (`analysis/12`). Outputs go to `outputs/analysis/`.
 
+**Refit on training + validation years** (optional, a few hours on one RTX 4090) – `bash run_refit.sh` after the main
+pipeline. Every model is trained for a fixed number of epochs (the median best validation epoch
+of its ten reference runs, `src.run_parallel --epochs_from`) once on 2015–2018 (control) and once
+on 2015–2019 (`--refit`), with decision thresholds carried over from the control (`--thr_from`);
+`analysis/14_refit_compare.py` then compares reference, control and refit. Nothing is tuned in
+this step.
+
+`src.train` also exposes optional optimiser and weight-averaging switches (`--opt adamw`,
+`--sched_tmax`, `--ema`, `--avg_topk`). They are off by default, leave the reference runs
+unchanged, and were not used for any result reported in the manuscript.
+
 Candidate configurations were compared on the 2019 validation year only
 (`analysis/08_validation_selection.py`, S = 0.5·AUPRC + 0.5·R²; adopt iff ΔS > 0 and p < 0.05
 over seeds). No candidate passed, so the final model is the reference configuration; test-set
@@ -119,5 +136,5 @@ See `CITATION.cff`. Please cite the article once published; until then cite this
 
 ## License
 
-MIT (see `LICENSE`). The NIFS monitoring data are subject to their own terms and are not covered
-by this license.
+MIT (see `LICENSE`). The KOEM monitoring data and the NIFS red-tide reports are subject to their
+own terms and are not covered by this license.

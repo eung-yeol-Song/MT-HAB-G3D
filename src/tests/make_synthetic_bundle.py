@@ -2,7 +2,7 @@
 make_synthetic_bundle.py
 ========================
 Builds a synthetic bundle with exactly the shape, dtypes, split structure and
-class imbalance of the real NIFS bundle, so the whole pipeline
+class imbalance of the real monitoring bundle, so the whole pipeline
 (train -> evaluate -> report -> figures) can be smoke-tested without the data.
 
     python -m src.tests.make_synthetic_bundle --out outputs/bundle_synth.npz

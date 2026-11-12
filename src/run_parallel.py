@@ -117,6 +117,26 @@ def build_jobs(a):
             jobs.append(dict(tag=tag, name=name, group=group, seed=sd,
                              rfile=rfile, bundle=bundle, over=over,
                              done=False, cost=COST.get(name, 5)))
+    if a.epochs_from:
+        import numpy as np
+        ep_tab = {}
+        for j in jobs:
+            if j["name"] in NO_TRAIN:
+                continue
+            key = (j["group"], j["name"])
+            if key not in ep_tab:
+                best = []
+                for sd in range(a.epochs_from_seeds):
+                    hp = os.path.join(a.epochs_from, f"{j['group']}_{j['name']}_s{sd}", "history.json")
+                    vs = json.load(open(hp))["val_score"]
+                    b_, e_ = -1e9, 0
+                    for i, v in enumerate(vs):          # same rule as the training loop
+                        if v > b_ + 1e-5:
+                            b_, e_ = v, i + 1
+                    best.append(e_)
+                ep_tab[key] = (int(np.median(best) + 0.5), best)
+            j["stop_epoch"] = ep_tab[key][0]
+        a._ep_tab = ep_tab
     jobs.sort(key=lambda j: -j["cost"])              # longest job first
     return jobs
 
@@ -142,6 +162,14 @@ def job_cmd(j, a, device, threads):
         cmd += ["--save_state", "--save_val_preds"]
         if j["name"].startswith("mthab"):
             cmd += ["--perm_importance", "5"]
+    # refit protocol: fixed epoch budget per model (median best epoch of the reference
+    # seeds), optionally train + validation, thresholds from the matching train-only run
+    if j.get("stop_epoch") and j["name"] not in NO_TRAIN:
+        cmd += ["--stop_epoch", str(j["stop_epoch"])]
+    if a.refit:
+        cmd.append("--refit")
+    if a.thr_from:
+        cmd += ["--thr_from", os.path.join(a.thr_from, j["tag"], "metrics.json")]
     for k, v in j["over"].items():
         if isinstance(v, bool):
             if v:
@@ -265,6 +293,13 @@ def main():
     ap.add_argument("--gpu_ids", default="0", help="e.g. 0 or 0,1")
     ap.add_argument("--auto", action="store_true", help="autodetect worker counts")
     ap.add_argument("--plan", action="store_true", help="print the schedule and exit")
+    ap.add_argument("--epochs_from", default="",
+                    help="reference run directory: every trained model gets --stop_epoch = median "
+                         "best validation epoch of its reference seeds (fixed budget, no selection)")
+    ap.add_argument("--epochs_from_seeds", type=int, default=10)
+    ap.add_argument("--refit", action="store_true", help="fit on train + validation (see src.train)")
+    ap.add_argument("--thr_from", default="",
+                    help="run directory whose per-run decision thresholds are reused (same tags)")
     ap.add_argument("--fresh_csv", action="store_true",
                     help="rebuild the CSVs from metrics.json only, ignoring old rows")
     a = ap.parse_args()
@@ -296,6 +331,10 @@ def main():
     print(f"   determinism      : {'on' if not a.nondeterministic else 'OFF'}")
     print("=" * 70)
 
+    if getattr(a, "_ep_tab", None):
+        print(" fixed epoch budget per model (median best epoch of the reference seeds):")
+        for (g, n), (e, best) in a._ep_tab.items():
+            print(f"   {g}_{n:16s} stop_epoch={e:3d}   reference best epochs {best}")
     if a.plan:
         print(f"\n{'#':>4}  {'tag':24s} {'cost':>5}")
         for i, j in enumerate(pending, 1):

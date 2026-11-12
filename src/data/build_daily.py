@@ -3,7 +3,7 @@ build_daily.py
 ==============
 Stage 1 of the MT-HAB-G3D extension pipeline.
 
-Converts the raw 5-minute NIFS Marine Water Quality Automatic Monitoring Network
+Converts the raw 5-minute KOEM Marine Water Quality Automatic Monitoring Network
 CSV files (one per station, Korean column names) into a single tidy
 *station-day* table, following the aggregation protocol described in
 Section 2.2 of the manuscript:
