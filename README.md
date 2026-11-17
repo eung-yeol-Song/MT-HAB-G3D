@@ -25,9 +25,12 @@ results/             CSV / TeX outputs that back the manuscript (see below)
 run_revision.sh      one-command pipeline (Linux);  run_revision.bat  Windows / Anaconda
 run_regpu.sh         re-run the reference matrix on GPU only (device unification, see "Determinism")
 run_stage2.sh        full matrix re-trained on the three augmented input bundles (Supplement S1-S3)
+run_stage2_regpu.sh  the same device unification for the three augmented-input matrices
 run_refit.sh         full matrix refitted on training + validation years with a fixed epoch budget (Section 4.6.5, Supplement S7-S8)
-smoke_check.py       5-10 min end-to-end check (1 seed, 2 epochs, 4 models)
-requirements.txt     Python dependencies (PyTorch installed separately for your CUDA version)
+smoke_check.py       validates the artefacts of `run_revision.sh --smoke` (called by that script)
+requirements.txt     Python dependencies with lower bounds
+requirements-pinned.txt   direct dependencies pinned to the versions used for the manuscript
+requirements-lock.txt     complete package set of the experiment environment (pip freeze)
 ```
 
 ### `results/`
@@ -35,17 +38,19 @@ requirements.txt     Python dependencies (PyTorch installed separately for your 
 |---|---|
 | `run_standard/results.csv` | all 142 runs of the final comparison matrix (model, seed, parameters, runtime, every metric per lead time) |
 | `run_standard/run_devices.csv` | device of every run (130 PyTorch runs on `cuda:0`, 12 torch-free reference runs) |
+| `run_standard/run_manifest.json` | run manifest of the comparison matrix (seeds, epochs, patience, workers, determinism flag) |
 | `run_standard/reference_rows_summary.csv` | persistence / climatology / gradient-boosted trees |
-| `ablation/ablation_results.csv`, `ablation_summary.csv`, `run_manifest.json` | component and candidate configurations (Table 8, Fig. 5) |
-| `analysis/table*.csv`, `manuscript_tables.tex`, `key_numbers.txt` | Table 2–8 bodies exactly as typeset |
+| `ablation/ablation_results.csv`, `ablation_summary.csv`, `run_manifest.json`, `run_devices.csv` | per-run results and summary written by `src.run_ablation` for the candidate configurations; the `full` row of the summary predates the device unification, so use `analysis/table8_ablation.csv` for Table 8 |
+| `analysis/table8_ablation.csv` | Table 8 (and Fig. 5) as reported: every component and candidate configuration against the final model |
+| `analysis/table*.csv`, `manuscript_tables.tex`, `key_numbers.txt` | bodies of Tables 2–5, 7 and 8 exactly as typeset, and the numbers quoted in the text |
 | `analysis/sample_ci.csv`, `dm_tests.csv`, `table5_pairs.csv` | bootstrap CIs, Diebold–Mariano, seed-paired tests |
 | `analysis/validation_selection.csv` | pre-registered validation-only selection rule for candidate configurations |
 | `analysis/onset_detection.csv`, `event_level_detection.csv`, `per_station_results.csv` | event-level and per-station results (Section 4.8, Supplement S5–S6) |
 | `analysis/threshold_rules_summary.csv` | decision-threshold sensitivity (Supplement S4) |
 | `analysis/perm_importance.csv`, `residual_mask_top_edges.csv`, `temporal_gates.csv` | model interpretation |
-| `stage2_<doy|rthist|doy-rthist>/` | full matrix re-trained with added input channels (Supplement S1–S3) |
+| `stage2_<doy|rthist|doy-rthist>/` | full matrix re-trained with added input channels (Supplement S1–S3), with `run_devices.csv` and `run_manifest.json` |
 | `refit/refit_summary.csv`, `refit_per_seed.csv`, `refit_rank.csv`, `refit_pairwise.csv`, `refit_compare.txt` | reference vs fixed-budget control vs refit on 2015–2019, per model and metric (Section 4.6.5, Supplement S7–S8) |
-| `refit/<fixed|refit>/` | all 142 runs of the control and refit matrices (`results.csv`) with their Table 2 / Table 5 / onset-detection tables |
+| `refit/<fixed|refit>/` | all 142 runs of the control and refit matrices (`results.csv`) with their Table 2 / Table 5 / onset-detection tables, `run_devices.csv` and `run_manifest.json` |
 
 ## Data
 
@@ -55,7 +60,7 @@ The water-quality observations come from the Marine Water Quality Automatic Moni
 Network operated by the Korea Marine Environment Management Corporation (KOEM) and are
 published through the Marine Environment Information System (MEIS, <https://meis.go.kr>);
 the red-tide reports come from the Red Tide Information System of the National Institute of
-Fisheries Science (NIFS, <https://www.nifs.go.kr/red/main.red>). The manuscript's Data
+Fisheries Science (NIFS, <https://www.nifs.go.kr/portal/pcon0000040/systA/actionConts.do>). The manuscript's Data
 availability section states how to obtain them. Once the file is placed at `outputs/daily_station_day.csv`, the
 pipeline below rebuilds the bundle and all runs.
 
@@ -67,8 +72,9 @@ this repository.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate      # Python >= 3.10
-pip install torch --index-url https://download.pytorch.org/whl/cu121   # pick your CUDA build
-pip install -r requirements.txt
+pip install -r requirements-lock.txt     # exact environment of the manuscript (torch 2.13.0, CUDA 13.0 build)
+# or: pip install -r requirements-pinned.txt   (direct dependencies only)
+# or: install the PyTorch build for your CUDA version, then  pip install -r requirements.txt
 python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 ```
 
@@ -117,11 +123,14 @@ numbers are reported as they come.
 ## Determinism
 
 Runs are bit-reproducible given the seed **and the device**: the same seed trained on CPU and on
-GPU gives different numbers. All 130 PyTorch runs behind the manuscript were trained on
-`cuda:0` (`results/run_standard/run_devices.csv`). `run_revision.sh` therefore uses
-GPU workers only; `--auto` (mixed CPU/GPU workers) is retained in `src.run_parallel` for quick
-exploration but should not be used for publishable runs. `run_regpu.sh` documents how a mixed
-matrix was unified.
+GPU gives different numbers. All PyTorch runs behind the manuscript were trained on `cuda:0`:
+the 130 runs of the comparison matrix, the component and candidate runs, the control and refit
+matrices, and the three augmented-input matrices of Supplement S1–S3 (`run_devices.csv` in
+each results folder). `run_revision.sh` and `run_stage2.sh` therefore use GPU workers only;
+`--auto` (mixed CPU/GPU workers) is retained in `src.run_parallel` for quick exploration but
+should not be used for publishable runs. `run_regpu.sh` and `run_stage2_regpu.sh` document how
+matrices that had been started with mixed workers were unified (comparison matrix on 2026-11-09,
+augmented-input matrices on 2026-11-18).
 
 The gradient-boosted-tree rows are CPU-only (scikit-learn) and depend on the library build. The
 rows released with v1.0.0 came from an earlier environment and could not be reproduced under the

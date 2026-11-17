@@ -1,4 +1,4 @@
-# experiment outputs (large; archived separately, see README "Data and model outputs")
+# experiment outputs (large; archived separately, see README "Data")
 outputs/
 *.npz
 *.pt

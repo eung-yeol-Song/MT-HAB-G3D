@@ -1,0 +1,17 @@
+{
+ "seeds": 10,
+ "mode": "standard",
+ "bundle": "mixed",
+ "min_publishable_seeds": 10,
+ "publishable": true,
+ "created": "2026-11-18T00:57:08",
+ "version": "MT-HAB extended experiments \u2014 v13-rev1 (2026-11-03): revision pipeline",
+ "launcher": "run_parallel",
+ "gpu_workers": 6,
+ "cpu_workers": 0,
+ "epochs": 60,
+ "patience": 15,
+ "station_emb": 8,
+ "deterministic": true,
+ "failed": []
+}

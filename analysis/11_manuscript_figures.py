@@ -1,7 +1,7 @@
 """Regenerate manuscript Figs. 3-5 from the final runs.
   Fig_3  horizon dependence: Chl-a RMSE, event-adjacent AUPRC and F1 vs lead time
   Fig_4  seed-paired significance grid (12 comparison rows x 8 metrics)
-  Fig_5  component / candidate analysis (Table 7) as paired differences
+  Fig_5  component / candidate analysis (Table 8) as paired differences
 Writes PDF+PNG to $MTHAB_FIG_OUT (default: $MTHAB_ANALYSIS_OUT)."""
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *

@@ -18,31 +18,31 @@ Table3 LSTM: TP 0.0/44 POD 0.000 FAR nan CSI 0.000 FA/station-month 0.025 (FP fu
 Table3 MT-HAB-G3D (proposed): TP 7.5/44 POD 0.170 FAR 0.423 CSI 0.144 FA/station-month 0.041 (FP full-year D+1 6.5; station-months 157)
 Table5 counts: {'n_comparisons': 96, 'favour_p05': 62, 'against_p05': 1, 'favour_BH': 57, 'against_BH': 1, 'not_significant': 33}
 significant against proposed (raw): MLP acc d=-0.0011 p=0.014 q=0.026
-Table6 Gradient-boosted trees: diverged 0 fails 13/70 seeds_fail 8 worst 0.109  (sd of mean F1 0.013)
-Table6 MLP: diverged 0 fails 64/70 seeds_fail 10 worst 0.000  (sd of mean F1 0.023)
-Table6 LSTM: diverged 0 fails 44/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.049)
-Table6 GRU: diverged 0 fails 46/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.048)
-Table6 CNN-LSTM: diverged 0 fails 53/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.037)
-Table6 Dilated TCN: diverged 0 fails 29/70 seeds_fail 8 worst 0.000  (sd of mean F1 0.046)
-Table6 Transformer: diverged 0 fails 22/70 seeds_fail 8 worst 0.018  (sd of mean F1 0.052)
-Table6 ST-GCN (no G3D): diverged 0 fails 51/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.026)
-Table6 MTGNN: diverged 0 fails 17/70 seeds_fail 3 worst 0.000  (sd of mean F1 0.073)
-Table6 AM-MTGNN: diverged 1 fails 18/70 seeds_fail 6 worst 0.000  (sd of mean F1 0.113)
-Table6 MTGNN (no graph): diverged 0 fails 17/70 seeds_fail 4 worst 0.000  (sd of mean F1 0.130)
-Table6 MT-HAB-G3D (proposed): diverged 0 fails 6/70 seeds_fail 3 worst 0.066  (sd of mean F1 0.039)
-Table6 MT-HAB-G3D (cls only): diverged None fails 0/70 seeds_fail 0 worst 0.153  (sd of mean F1 0.008)
-Table6 MT-HAB-G3D + spatial ext.: diverged 0 fails 12/70 seeds_fail 5 worst 0.010  (sd of mean F1 0.071)
-Table7 plus_station_graph: n=10 RMSE 3.995 dRMSE +0.522 p 0.027 | F1 0.160 dF1 -0.007 p 0.770 | AUPRC 0.325 (d -0.034, p 0.004) | val --- | eval n_reg 2949
-Table7 no_station_emb: n=10 RMSE 3.409 dRMSE -0.036 p 0.770 | F1 0.173 dF1 +0.019 p 0.049 | AUPRC 0.350 (d -0.010, p 0.020) | val +0.004 (0.625) | eval n_reg 2949
-Table7 no_log_target: n=10 RMSE 212.089 dRMSE +209.972 p 0.002 | F1 0.173 dF1 +0.028 p 0.160 | AUPRC 0.353 (d -0.007, p 0.492) | val -0.695 (0.002) | eval n_reg 2949
-Table7 window_5: n=10 RMSE 3.309 dRMSE -0.145 p 0.037 | F1 0.250 dF1 +0.095 p 0.004 | AUPRC 0.419 (d +0.059, p 0.004) | val +0.003 (1.000) | eval n_reg 3234
-Table7 lam_0.2: n=10 RMSE 3.354 dRMSE -0.021 p 0.846 | F1 0.157 dF1 -0.023 p 0.557 | AUPRC 0.357 (d -0.002, p 0.492) | val -0.001 (0.922) | eval n_reg 2949
-Table7 lam_2.0: n=10 RMSE 3.395 dRMSE -0.037 p 0.770 | F1 0.161 dF1 +0.018 p 0.557 | AUPRC 0.368 (d +0.008, p 0.232) | val -0.009 (0.084) | eval n_reg 2949
-Table7 residual_head: n=10 RMSE 3.458 dRMSE -0.020 p 0.922 | F1 0.165 dF1 +0.030 p 0.027 | AUPRC 0.365 (d +0.005, p 0.322) | val +0.001 (0.846) | eval n_reg 2949
-Table7 wbce: n=10 RMSE 3.336 dRMSE -0.076 p 0.557 | F1 0.156 dF1 +0.005 p 1.000 | AUPRC 0.355 (d -0.004, p 0.322) | val -0.014 (0.084) | eval n_reg 2949
-Table7 plus_doy: n=10 RMSE 3.593 dRMSE +0.130 p 0.160 | F1 0.059 dF1 -0.080 p 0.004 | AUPRC 0.310 (d -0.050, p 0.002) | val -0.026 (0.064) | eval n_reg 2949
-Table7 plus_rthist: n=10 RMSE 3.503 dRMSE +0.097 p 0.160 | F1 0.226 dF1 +0.082 p 0.002 | AUPRC 0.350 (d -0.010, p 0.084) | val -0.039 (0.004) | eval n_reg 2949
-Table7 plus_doy_rthist: n=10 RMSE 3.711 dRMSE +0.273 p 0.049 | F1 0.300 dF1 +0.160 p 0.002 | AUPRC 0.322 (d -0.037, p 0.037) | val -0.045 (0.002) | eval n_reg 2949
+Table7 Gradient-boosted trees: diverged 0 fails 13/70 seeds_fail 8 worst 0.109  (sd of mean F1 0.013)
+Table7 MLP: diverged 0 fails 64/70 seeds_fail 10 worst 0.000  (sd of mean F1 0.023)
+Table7 LSTM: diverged 0 fails 44/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.049)
+Table7 GRU: diverged 0 fails 46/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.048)
+Table7 CNN-LSTM: diverged 0 fails 53/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.037)
+Table7 Dilated TCN: diverged 0 fails 29/70 seeds_fail 8 worst 0.000  (sd of mean F1 0.046)
+Table7 Transformer: diverged 0 fails 22/70 seeds_fail 8 worst 0.018  (sd of mean F1 0.052)
+Table7 ST-GCN (no G3D): diverged 0 fails 51/70 seeds_fail 9 worst 0.000  (sd of mean F1 0.026)
+Table7 MTGNN: diverged 0 fails 17/70 seeds_fail 3 worst 0.000  (sd of mean F1 0.073)
+Table7 AM-MTGNN: diverged 1 fails 18/70 seeds_fail 6 worst 0.000  (sd of mean F1 0.113)
+Table7 MTGNN (no graph): diverged 0 fails 17/70 seeds_fail 4 worst 0.000  (sd of mean F1 0.130)
+Table7 MT-HAB-G3D (proposed): diverged 0 fails 6/70 seeds_fail 3 worst 0.066  (sd of mean F1 0.039)
+Table7 MT-HAB-G3D (cls only): diverged None fails 0/70 seeds_fail 0 worst 0.153  (sd of mean F1 0.008)
+Table7 MT-HAB-G3D + spatial ext.: diverged 0 fails 12/70 seeds_fail 5 worst 0.010  (sd of mean F1 0.071)
+Table8 plus_station_graph: n=10 RMSE 3.995 dRMSE +0.522 p 0.027 | F1 0.160 dF1 -0.007 p 0.770 | AUPRC 0.325 (d -0.034, p 0.004) | val --- | eval n_reg 2949
+Table8 no_station_emb: n=10 RMSE 3.409 dRMSE -0.036 p 0.770 | F1 0.173 dF1 +0.019 p 0.049 | AUPRC 0.350 (d -0.010, p 0.020) | val +0.004 (0.625) | eval n_reg 2949
+Table8 no_log_target: n=10 RMSE 212.089 dRMSE +209.972 p 0.002 | F1 0.173 dF1 +0.028 p 0.160 | AUPRC 0.353 (d -0.007, p 0.492) | val -0.695 (0.002) | eval n_reg 2949
+Table8 window_5: n=10 RMSE 3.309 dRMSE -0.145 p 0.037 | F1 0.250 dF1 +0.095 p 0.004 | AUPRC 0.419 (d +0.059, p 0.004) | val +0.003 (1.000) | eval n_reg 3234
+Table8 lam_0.2: n=10 RMSE 3.354 dRMSE -0.021 p 0.846 | F1 0.157 dF1 -0.023 p 0.557 | AUPRC 0.357 (d -0.002, p 0.492) | val -0.001 (0.922) | eval n_reg 2949
+Table8 lam_2.0: n=10 RMSE 3.395 dRMSE -0.037 p 0.770 | F1 0.161 dF1 +0.018 p 0.557 | AUPRC 0.368 (d +0.008, p 0.232) | val -0.009 (0.084) | eval n_reg 2949
+Table8 residual_head: n=10 RMSE 3.458 dRMSE -0.020 p 0.922 | F1 0.165 dF1 +0.030 p 0.027 | AUPRC 0.365 (d +0.005, p 0.322) | val +0.001 (0.846) | eval n_reg 2949
+Table8 wbce: n=10 RMSE 3.336 dRMSE -0.076 p 0.557 | F1 0.156 dF1 +0.005 p 1.000 | AUPRC 0.355 (d -0.004, p 0.322) | val -0.014 (0.084) | eval n_reg 2949
+Table8 plus_doy: n=10 RMSE 3.593 dRMSE +0.130 p 0.160 | F1 0.059 dF1 -0.080 p 0.004 | AUPRC 0.310 (d -0.050, p 0.002) | val -0.026 (0.064) | eval n_reg 2949
+Table8 plus_rthist: n=10 RMSE 3.503 dRMSE +0.097 p 0.160 | F1 0.226 dF1 +0.082 p 0.002 | AUPRC 0.350 (d -0.010, p 0.084) | val -0.039 (0.004) | eval n_reg 2949
+Table8 plus_doy_rthist: n=10 RMSE 3.711 dRMSE +0.273 p 0.049 | F1 0.300 dF1 +0.160 p 0.002 | AUPRC 0.322 (d -0.037, p 0.037) | val -0.045 (0.002) | eval n_reg 2949
 
 horizon-wise paired Wilcoxon, proposed vs GBT RMSE (p):  D+1 d=-0.350 p=0.084, D+2 d=+0.298 p=0.002, D+3 d=+0.110 p=0.193, D+4 d=+0.064 p=0.492, D+5 d=-0.056 p=0.275, D+6 d=-0.044 p=0.322, D+7 d=-0.162 p=0.004
 proposed vs MLP RMSE (p): D+1 d=+0.139 p=0.922, D+2 d=+0.043 p=1.000, D+3 d=+0.049 p=0.557, D+4 d=+0.053 p=0.557, D+5 d=+0.039 p=0.846, D+6 d=+0.047 p=0.557, D+7 d=+0.055 p=0.232

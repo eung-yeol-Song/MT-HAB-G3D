@@ -10,9 +10,9 @@ import numpy as np, pandas as pd
 U = os.environ.get("MTHAB_OUT", "outputs")
 RUNS = f"{U}/run_standard/runs"
 ABL = f"{U}/ablation/runs"
-FINAL_DIR = os.environ.get("MTHAB_FINAL_DIR", ABL)
-FINAL_FMT = os.environ.get("MTHAB_FINAL_FMT", "no_station_graph_s{}")
-BUNDLE_9 = os.environ.get("MTHAB_BUNDLE", f"{U}/bundle_ab_k2_s0_l1_T10.npz")
+FINAL_DIR = os.environ.get("MTHAB_FINAL_DIR", RUNS)
+FINAL_FMT = os.environ.get("MTHAB_FINAL_FMT", "A_mthab_mse_s{}")
+BUNDLE_9 = os.environ.get("MTHAB_BUNDLE", f"{U}/bundle_main.npz")
 OUT = os.environ.get("MTHAB_ANALYSIS_OUT", os.path.join(os.path.dirname(os.path.abspath(__file__)), "out"))
 os.makedirs(OUT, exist_ok=True)
 

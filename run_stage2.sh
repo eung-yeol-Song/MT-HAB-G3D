@@ -27,7 +27,7 @@ for f in ${FEATS:-doy rthist doy-rthist}; do
 
   echo "== [$f] stage 2: full matrix on $B   ($(date '+%F %T'))"
   python -m src.run_parallel --bundle "$B" --seeds $SEEDS --epochs $EPOCHS --patience $PATIENCE \
-         --station_emb 8 --auto \
+         --station_emb 8 --gpu_workers 6 --cpu_workers 0 \
          --outdir "$D/run_standard/runs" --results "$D/run_standard/results.csv" \
          --results_ext "$D/run_standard/results_ext.csv"
 

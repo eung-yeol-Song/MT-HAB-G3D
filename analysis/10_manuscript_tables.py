@@ -1,4 +1,4 @@
-"""Emit the LaTeX table bodies of the revised manuscript (Tables 2-7) directly from
+"""Emit the LaTeX table bodies of the revised manuscript (Tables 2-5, 7 and 8) directly from
 the final run directories, so every number in the tex can be traced to a run.
 
 Conventions (unchanged from the submitted manuscript unless stated):
@@ -127,7 +127,7 @@ for n, pl in rows3:
         mf = p["m_cls"][:, 0]; cf = cls_metrics(p["y_cls"][mf, 0], p["prob"][mf, 0], p["thr"][0])
         v.append([c["TP"], c["n_pos"], c["POD"], c["FAR"], c["CSI"], cf["FP"] / station_months(p, 0), cf["FP"]])
     v = np.median(np.array(v, float), 0)
-    emit(f"{n} & {v[0]:.0f}/{v[1]:.0f} & {fmt(v[2])} & {fmt(v[3])} & {fmt(v[4])} & {v[5]:.2f} \\\\")
+    emit(f"{n} & {v[0]:g}/{v[1]:.0f} & {fmt(v[2])} & {fmt(v[3])} & {fmt(v[4])} & {v[5]:.2f} \\\\")
     key.write(f"Table3 {n}: TP {v[0]:.1f}/{v[1]:.0f} POD {v[2]:.3f} FAR {v[3]:.3f} CSI {v[4]:.3f} FA/station-month {v[5]:.3f} (FP full-year D+1 {v[6]:.1f}; station-months {station_months(ref,0)})\n")
 
 # ------------------------------------------------------------------ Table 4 (horizon, proposed)
@@ -154,8 +154,8 @@ cnt = pd.read_csv(f"{OUT}/table5_counts.csv").iloc[0]
 key.write(f"Table5 counts: {cnt.to_dict()}\n")
 agn = t5[(~t5.favours_proposed) & (t5.p < 0.05)]; key.write("significant against proposed (raw): " + "; ".join(f"{r.comparison} {r.metric} d={r.delta_mean:+.4f} p={r.p:.3f} q={r.q_BH:.3f}" for r in agn.itertuples()) + "\n")
 
-# ------------------------------------------------------------------ Table 6 (reliability)
-emit("\n% ---------------- Table 6 (tab:reliability) body ----------------")
+# ------------------------------------------------------------------ Table 7 (reliability)
+emit("\n% ---------------- Table 7 (tab:reliability) body ----------------")
 ORDER6 = ["Gradient-boosted trees", "MLP", "LSTM", "GRU", "CNN-LSTM", "Dilated TCN", "Transformer", "ST-GCN (no G3D)", "MTGNN", "AM-MTGNN", "MTGNN (no graph)",
           "MT-HAB-G3D (proposed)", "MT-HAB-G3D (cls only)", "MT-HAB-G3D + spatial ext."]
 for n in ORDER6:
@@ -165,10 +165,10 @@ for n in ORDER6:
     fails = int((f1 == 0).sum()); seeds_fail = int(((f1 == 0).sum(1) > 0).sum()); worst = f1.mean(1).min()
     lab = r"\quad + spatial extension" if "spatial" in n else (r"\quad classification-only control" if "cls only" in n else n)
     emit(f"{lab} & {'---' if div is None else div} & {fails} & {seeds_fail} & {worst:.3f} \\\\")
-    key.write(f"Table6 {n}: diverged {div} fails {fails}/70 seeds_fail {seeds_fail} worst {worst:.3f}  (sd of mean F1 {f1.mean(1).std(ddof=1):.3f})\n")
+    key.write(f"Table7 {n}: diverged {div} fails {fails}/70 seeds_fail {seeds_fail} worst {worst:.3f}  (sd of mean F1 {f1.mean(1).std(ddof=1):.3f})\n")
 
-# ------------------------------------------------------------------ Table 7 (ablation / revision candidates vs final)
-emit("\n% ---------------- Table 7 (tab:ablation) body ----------------")
+# ------------------------------------------------------------------ Table 8 (ablation / revision candidates vs final)
+emit("\n% ---------------- Table 8 (tab:ablation) body ----------------")
 refP = PS["MT-HAB-G3D (proposed)"]
 ABLROWS = [("plus_station_graph", "+ spatial extension (two nearest stations as nodes)"),
            ("no_station_emb", "$-$ station embedding"),
@@ -181,9 +181,11 @@ ABLROWS = [("plus_station_graph", "+ spatial extension (two nearest stations as 
 vs = pd.read_csv(f"{OUT}/validation_selection.csv").set_index("config") if os.path.exists(f"{OUT}/validation_selection.csv") else None
 emit(f"Final configuration (reference) & {refP.RMSE.median():.3f} & --- & --- & {refP.F1.median():.3f} & --- & --- & {refP.AUPRC.median():.3f} & {refP.RMSE.std(ddof=1):.3f} & --- \\\\")
 emit(r"\midrule")
+t8 = [dict(config="full", n_seeds=len(refP), RMSE_median=refP.RMSE.median(), F1_median=refP.F1.median(),
+           AUPRC_median=refP.AUPRC.median(), RMSE_sd=refP.RMSE.std(ddof=1))]
 for cfg, lab in ABLROWS:
     pl = [load_pred(ABL, f"{cfg}_s{s}") for s in range(10) if os.path.exists(f"{ABL}/{cfg}_s{s}/preds_test.npz")]
-    if not pl: key.write(f"Table7 {cfg}: no runs\n"); continue
+    if not pl: key.write(f"Table8 {cfg}: no runs\n"); continue
     P = per_seed(pl)
     n = min(len(P), len(refP))
     dR = (P.RMSE.values[:n] - refP.RMSE.values[:n]).mean(); pR = pw(P.RMSE.values, refP.RMSE.values)
@@ -191,8 +193,15 @@ for cfg, lab in ABLROWS:
     val = "---"
     if vs is not None and cfg in vs.index:
         r = vs.loc[cfg]; val = f"{r.dS_mean:+.3f} ({fmt(r.p_S)})"
+    t8.append(dict(config=cfg, n_seeds=len(pl), RMSE_median=P.RMSE.median(), dRMSE_mean=dR, p_RMSE=pR,
+                   F1_median=P.F1.median(), dF1_mean=dF, p_F1=pF, AUPRC_median=P.AUPRC.median(),
+                   RMSE_sd=P.RMSE.std(ddof=1),
+                   val_dS_mean=vs.loc[cfg].dS_mean if vs is not None and cfg in vs.index else np.nan,
+                   val_p_S=vs.loc[cfg].p_S if vs is not None and cfg in vs.index else np.nan))
     emit(f"{lab} & {P.RMSE.median():.3f} & {dR:+.3f} & {fp(pR)} & {P.F1.median():.3f} & {dF:+.3f} & {fp(pF)} & {P.AUPRC.median():.3f} & {P.RMSE.std(ddof=1):.3f} & {val} \\\\")
-    key.write(f"Table7 {cfg}: n={len(pl)} RMSE {P.RMSE.median():.3f} dRMSE {dR:+.3f} p {pR:.3f} | F1 {P.F1.median():.3f} dF1 {dF:+.3f} p {pF:.3f} | AUPRC {P.AUPRC.median():.3f} (d {P.AUPRC.median()-refP.AUPRC.median():+.3f}, p {pw(P.AUPRC.values, refP.AUPRC.values):.3f}) | val {val} | eval n_reg {int(pl[0]['m_reg'][:,0].sum())}\n")
+    key.write(f"Table8 {cfg}: n={len(pl)} RMSE {P.RMSE.median():.3f} dRMSE {dR:+.3f} p {pR:.3f} | F1 {P.F1.median():.3f} dF1 {dF:+.3f} p {pF:.3f} | AUPRC {P.AUPRC.median():.3f} (d {P.AUPRC.median()-refP.AUPRC.median():+.3f}, p {pw(P.AUPRC.values, refP.AUPRC.values):.3f}) | val {val} | eval n_reg {int(pl[0]['m_reg'][:,0].sum())}\n")
+
+pd.DataFrame(t8).to_csv(f"{OUT}/table8_ablation.csv", index=False)
 
 # ------------------------------------------------------------------ horizon-wise p-values vs GBT / persistence (text of 4.4)
 key.write("\nhorizon-wise paired Wilcoxon, proposed vs GBT RMSE (p):  ")

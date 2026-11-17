@@ -3,7 +3,7 @@
 #  MT-HAB-G3D  —  ECOINF revision pipeline (v13-rev1)
 #  One command reproduces every number the revised manuscript needs.
 #
-#     bash run_revision.sh                # GPU box: auto-detects workers
+#     bash run_revision.sh                # GPU box: GPU workers only (GPU_WORKERS, default 6)
 #     bash run_revision.sh --cpu          # CPU only (slow: ~10 h per MT-HAB seed on 2 cores)
 #     bash run_revision.sh --smoke        # 1 seed, 2 epochs, 2 models: checks the patched code runs
 #
@@ -67,7 +67,7 @@ python -m src.run_ablation --device $DEV --seeds $SEEDS --epochs $EPOCHS --patie
 #            chosen on the 2019 validation split by analysis/08_validation_selection.py; if an
 #            input-channel row wins, re-run every baseline on that bundle (stage 2):
 #              python -m src.run_parallel --bundle outputs/bundle_ab_k2_s0_l1_T10_qc_f<feats>.npz \
-#                     --seeds 10 --epochs 60 --patience 15 --station_emb 8 --auto \
+#                     --seeds 10 --epochs 60 --patience 15 --station_emb 8 --gpu_workers 6 --cpu_workers 0 \
 #                     --outdir outputs/run_stage2/runs --results outputs/run_stage2/results.csv \
 #                     --results_ext outputs/run_stage2/results_ext.csv
 #            and point MTHAB_FINAL_DIR / MTHAB_OUT at outputs/run_stage2 for stage 4.

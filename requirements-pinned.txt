@@ -1,0 +1,11 @@
+# Direct dependencies pinned to the versions used for the manuscript runs
+# (Python 3.10.12; torch 2.13.0 from PyPI is the CUDA 13.0 build on Linux x86_64).
+# For the complete, transitive set see requirements-lock.txt.
+torch==2.13.0
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.7.2
+scipy==1.15.3
+matplotlib==3.10.9
+pyarrow==25.0.1
+tabulate==0.10.0
