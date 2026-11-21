@@ -6,6 +6,13 @@ version: "1.0.2"
 date-released: "2026-11-21"
 license: MIT
 repository-code: "https://github.com/eung-yeol-Song/MT-HAB-G3D"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24421586
+    description: "Zenodo archive, all versions"
+  - type: doi
+    value: 10.5281/zenodo.24421587
+    description: "Zenodo archive, release v1.0.2"
 authors:
   - family-names: Song
     given-names: Eungyeol

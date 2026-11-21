@@ -4,6 +4,8 @@ Code, run manifests and result tables for the manuscript
 *Multi-Task Spatiotemporal Graph Learning for Coastal Harmful Algal Bloom Forecasting*
 (Song & Oh, submitted to *Ecological Informatics*, ECOINF-D-26-03683).
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24421586.svg)](https://doi.org/10.5281/zenodo.24421586)
+
 The repository contains everything needed to rebuild every table and figure of the
 revised manuscript from the daily station table: data preparation, the proposed
 MT-HAB-G3D model, thirteen comparison models, two single-task controls, the component /
@@ -142,6 +144,9 @@ them was rebuilt. No other model's results changed; only the Benjamini-Hochberg 
 ## Citation
 
 See `CITATION.cff`. Please cite the article once published; until then cite this repository.
+
+Release v1.0.2 is archived at Zenodo: <https://doi.org/10.5281/zenodo.24421587>. The DOI
+<https://doi.org/10.5281/zenodo.24421586> covers all versions and resolves to the latest one.
 
 ## License
 
